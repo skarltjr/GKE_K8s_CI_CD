@@ -145,6 +145,11 @@ pipeline{
     }
 }
 
+
+
+참고로 여기서 4시간을 헤맸다.
+마지막 도커 이미지 푸쉬에서 withDockerRegistry가 안먹었다.
+깜빡하고 도커 파이프라인 플러그인설치를 안함 젠킨스에.
 ```
 - <img width="661" alt="스크린샷 2022-03-09 오후 10 00 44" src="https://user-images.githubusercontent.com/62214428/157446785-d2d91cca-e56b-4c23-b9de-4b00596fa145.png">
 ```
