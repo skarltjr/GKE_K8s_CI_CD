@@ -21,7 +21,26 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 1. 젠킨에서 코드 레포지토리 변경사항이 있을 경우 이를 바탕으로 docker image build 및 push
 2. 이후 배포 전용!!!레포지토리에 새로운 이미지 태그 반영(deployment.yaml의 이미지 태그 변경)
 3. argo CD는 배포 전용 레포지토리로부터 auto sync
-```
-- 우선 배포 전용 레포지토리를 추가하여 manifest를 작성하자
+
 - 현재 레포지토리를 배포 전용 레포로 사용할것이다.
 - https://github.com/skarltjr/ci_cd_test 는 코드 레포지토리
+```
+- 우선 젠킨스를 설치하자
+- 참고로 원래 마스터노드에 직접 설치하려다 gke에서 마스터노드 직접 접근이 불가능하다고해서 방법 변경
+```
+1. helm 설치
+- 마스터노드에 helm설치
+  - $ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+  - $ chmod 700 get_helm.sh
+  - $ ./get_helm.sh
+  - $ helm repo add stable https://charts.helm.sh/stable
+  - $ helm searh repo stable/jenkins확인
+  - $ helm repo update
+```
+```
+2. 젠킨스 설치
+- kubectl create namespace jenkins-demo // 네임스페이스 생성
+- kubectl get namespace // 확인
+
+
+```
