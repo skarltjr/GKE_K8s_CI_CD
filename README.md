@@ -26,21 +26,6 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 - https://github.com/skarltjr/ci_cd_test 는 코드 레포지토리
 ```
 - 우선 젠킨스를 설치하자
-- 참고로 원래 마스터노드에 직접 설치하려다 gke에서 마스터노드 직접 접근이 불가능하다고해서 방법 변경
-```
-1. helm 설치
-- 마스터노드에 helm설치
-  - $ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
-  - $ chmod 700 get_helm.sh
-  - $ ./get_helm.sh
-  - $ helm repo add stable https://charts.helm.sh/stable
-  - $ helm searh repo stable/jenkins확인
-  - $ helm repo update
-```
-```
-2. 젠킨스 설치
-- kubectl create namespace jenkins-demo // 네임스페이스 생성
-- kubectl get namespace // 확인
-
-
-```
+- 젠킨스는 별도의 인스턴스를 생성해서 따로 관리해보고자한다.
+- https://github.com/skarltjr/Kubernetes-with-Docker/blob/main/쿠버네티스_dev(6)/4.%20jenkins를%20통한%20CI.md
+- <img width="1817" alt="스크린샷 2022-03-09 오후 6 01 26" src="https://user-images.githubusercontent.com/62214428/157408221-ec95394f-1854-4836-b8aa-227f614eeaf1.png">
