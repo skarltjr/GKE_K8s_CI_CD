@@ -166,7 +166,38 @@ pipeline{
 ```
 배포 manifest를 작성하자
 ```
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s
+spec:
+  type: NodePort
+  selector:
+    app: k8s
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30007
+      
+apiVersion:apps/v1
+kind: Deployment
+metadata:
+  name: k8s
+spec:
+  selector:
+    matchLabels:
+      app: k8s
+    replicas:3
+    template:
+      metadata:
+        labels:
+          app: k8s
+      spec:
+        containers:
+          - name: k8s
+            image: {dockerhub}/k8s:{jenkins build number}
+            ports:
+              - containerPort:8080 
 ```
 이제 위 내용을 푸쉬하고 도커허브에 이미지가 생성되는지 확인해보자
 ```
