@@ -14,3 +14,14 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 - 2번 - 클러스터 연결을 눌렀을 때 나오는 명령어를 복사하여
 - 3번 - 쉘에 붙여넣으면 kubectl이 자동으로 활성화!!
 - 이용준비는 완료!
+
+### 3. jenkins CI구성
+```
+목표는 
+1. 젠킨에서 코드 레포지토리 변경사항이 있을 경우 이를 바탕으로 docker image build 및 push
+2. 이후 배포 전용!!!레포지토리에 새로운 이미지 태그 반영(deployment.yaml의 이미지 태그 변경)
+3. argo CD는 배포 전용 레포지토리로부터 auto sync
+```
+- 우선 배포 전용 레포지토리를 추가하여 manifest를 작성하자
+- 현재 레포지토리를 배포 전용 레포로 사용할것이다.
+- https://github.com/skarltjr/ci_cd_test 는 코드 레포지토리
