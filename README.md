@@ -15,7 +15,7 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 - 3번 - 쉘에 붙여넣으면 kubectl이 자동으로 활성화!!
 - 이용준비는 완료!
 
-### 3. jenkins CI구성
+### 3. jenkins 설치
 ```
 목표는 
 1. 젠킨에서 코드 레포지토리 변경사항이 있을 경우 이를 바탕으로 docker image build 및 push
@@ -29,3 +29,7 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 - 젠킨스는 별도의 인스턴스를 생성해서 따로 관리해보고자한다.
 - https://github.com/skarltjr/Kubernetes-with-Docker/blob/main/쿠버네티스_dev(6)/4.%20jenkins를%20통한%20CI.md
 - <img width="1817" alt="스크린샷 2022-03-09 오후 6 01 26" src="https://user-images.githubusercontent.com/62214428/157408221-ec95394f-1854-4836-b8aa-227f614eeaf1.png">
+
+### 4. jenkins ci 파이프라인 구성
+- https://hwannny.tistory.com/113 참고
+- 
