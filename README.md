@@ -40,6 +40,9 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 ```
 유저네임 패스워드는 도커허브 계정
 id는 pipeline구성시 활요할거니까 기억하기
+
+추가로 deployment.yaml service.yaml은 gitops repo에 존재하고 나중에 이미지가 새로 빌드되었을 때 해당 레포에 변경이 반영되야한다
+그래서 깃허브 credential도 동일하게 만들어준다. 이때 비밀번호는 토큰으로
 ```
 
 
@@ -73,21 +76,20 @@ pipeline{
     environment {
         dockerHubRegistry = 'skarltjr/k8s'
         dockerHubRegistryCredential = 'docker-hub'
+        githubCredential = 'github'
     }
 
     stages {
         stage('check out application git branch'){
             steps {
-                git credentialsId: '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'
-                    url: 'https://github.com/skarltjr/GKE_K8s_CI_CD',
-                    branch: 'main'
+                checkout scm
             }
             post {
                 failure {
-                    echo 'repository clone failure'
+                    echo 'repository checkout failure'
                 }
                 success {
-                    echo 'repository clone success'
+                    echo 'repository checkout success'
                 }
             }
         }
@@ -122,10 +124,11 @@ pipeline{
         stage('Docker Image Push') {
             steps {
                 withDockerRegistry([ credentialsId: dockerHubRegistryCredential, url: "" ]) {
-                                    sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
-                                    sh "docker push ${dockerHubRegistry}:latest"
-                                    sleep 10 /* Wait uploading */
-                                }
+                    sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
+                    sh "docker push ${dockerHubRegistry}:latest"
+
+                    sleep 10 /* Wait uploading */
+                }
             }
             post {
                     failure {
@@ -142,16 +145,20 @@ pipeline{
         }
         stage('K8S Manifest Update') {
             steps {
-                git credentialsId: '{Credential ID}',
-                    url: 'https://github.com/best-branch/k8s-manifest.git',
-                    branch: 'master'
+                sh 'mkdir -p gitOpsRepo'
+                dir("gitOpsRepo")
+                {
+                    git branch: "main",
+                    credentialsId: 'githubCredential',
+                    url: 'https://github.com/skarltjr/kube-manifests'
+                }
 
                 sh "sed -i 's/k8s:.*\$/k8s:${currentBuild.number}/g' deployment.yaml"
                 sh "git add deployment.yaml"
                 sh "git commit -m '[UPDATE] my-app ${currentBuild.number} image versioning'"
-                sshagent(credentials: ['{k8s-manifest repository credential ID}']) {
-                    sh "git remote set-url origin git@github.com:best-branch/k8s-manifest.git"
-                    sh "git push -u origin master"
+                sshagent(credentials: ['{test-private-key}']) {
+                    sh "git remote set-url origin https://github.com/skarltjr/kube-manifests"
+                    sh "git push -u origin main"
                  }
             }
             post {
@@ -162,8 +169,7 @@ pipeline{
                       echo 'K8S Manifest Update success !'
                     }
             }
-        }        
-
+        }
 
     }
 }
