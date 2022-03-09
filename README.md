@@ -19,8 +19,8 @@ GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD �
 ```
 목표는 
 1. 젠킨스에서 코드 레포지토리 변경사항이 있을 경우 이를 바탕으로 docker image build 및 push
-2. 이후 해당 레포지토리에 새로운 이미지 태그 반영(deployment.yaml의 이미지 태그 변경)
-3. argo CD는 현재 배포 yaml과 해당 레포지토리의 수정된 yaml auto sync
+2. 이후 kube-manifest 레포지토리에 새로운 이미지 태그 반영(deployment.yaml의 이미지 태그 변경)
+3. argo CD는 현재 배포 yaml과 kube-manifest 레포지토리의 수정된 yaml auto sync
 
 - https://github.com/skarltjr/ci_cd_test 는 코드 레포지토리
 ```
@@ -140,6 +140,29 @@ pipeline{
                     }
             }
         }
+        stage('K8S Manifest Update') {
+            steps {
+                git credentialsId: '{Credential ID}',
+                    url: 'https://github.com/best-branch/k8s-manifest.git',
+                    branch: 'master'
+
+                sh "sed -i 's/k8s:.*\$/k8s:${currentBuild.number}/g' deployment.yaml"
+                sh "git add deployment.yaml"
+                sh "git commit -m '[UPDATE] my-app ${currentBuild.number} image versioning'"
+                sshagent(credentials: ['{k8s-manifest repository credential ID}']) {
+                    sh "git remote set-url origin git@github.com:best-branch/k8s-manifest.git"
+                    sh "git push -u origin master"
+                 }
+            }
+            post {
+                    failure {
+                      echo 'K8S Manifest Update failure !'
+                    }
+                    success {
+                      echo 'K8S Manifest Update success !'
+                    }
+            }
+        }        
 
 
     }
@@ -165,7 +188,8 @@ pipeline{
 
 ```
 배포 manifest를 작성하자
-```
+참고로 해당 manifest는 별도의 레포지토리 https://github.com/skarltjr/kube-manifests / 소스코드 레포랑 별개다
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -198,6 +222,17 @@ spec:
             image: {dockerhub}/k8s:{jenkins build number}
             ports:
               - containerPort:8080 
+              
+              
+이제 해야할것은 코드 수정 -> 젠킨스 ci를 통한 이미지 빌드 및 푸쉬 -> 새로운 이미지로 yaml수정 후 배포 
+따라서 jenkinsfile stage 추가(맨아래 stage)
+sh "sed -i 's/k8s:.*\$/k8s:${currentBuild.number}/g' deployment.yaml" 를 통해 
+deployment.yaml에 있는 image: skarltjr/k8s:{jenkins build number}중 k8s부터 뒤 모든 부분을  k8s:${currentBuild.number} 
+새로 푸쉬된 이미지 태그로 갈아끼운다-> yaml수정이 된다.
+이를위해 k8s-manifest repository credential ID도 생성해준다. 
+여기서 키 생성은 참고: https://hwannny.tistory.com/89
+
+참고 : https://m.blog.naver.com/hanajava/220595096628
 ```
-이제 위 내용을 푸쉬하고 도커허브에 이미지가 생성되는지 확인해보자
-```
+
+
