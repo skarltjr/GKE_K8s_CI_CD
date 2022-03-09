@@ -146,6 +146,7 @@ pipeline{
 }
 
 ```
+- <img width="661" alt="스크린샷 2022-03-09 오후 10 00 44" src="https://user-images.githubusercontent.com/62214428/157446785-d2d91cca-e56b-4c23-b9de-4b00596fa145.png">
 ```
 여기까지 완료 후 테스트를 해보자
 - 나는 처음에 여러번해봤을 때 웹훅이 연결이 잘 안된건지 동작을 안함
