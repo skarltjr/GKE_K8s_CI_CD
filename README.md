@@ -240,9 +240,17 @@ sh "sed -i 's/k8s:.*\$/k8s:${currentBuild.number}/g' deployment.yaml" 를 통해
 deployment.yaml에 있는 image: skarltjr/k8s:{jenkins build number}중 k8s부터 뒤 모든 부분을  k8s:${currentBuild.number} 
 새로 푸쉬된 이미지 태그로 갈아끼운다-> yaml수정이 된다.
 이를위해 k8s-manifest repository credential ID도 생성해준다. 
-여기서 키 생성은 참고: https://hwannny.tistory.com/89
 
-참고 : https://m.blog.naver.com/hanajava/220595096628
+
+
+sshagent(credentials: ['{test-private-key}']) {
+    sh "git remote set-url origin https://github.com/skarltjr/kube-manifests"
+    sh "git push -u origin main"
+ }
+
+여기서 test-private-key키 생성은 참고: https://hwannny.tistory.com/89
+
+sed 커맨드는 참고 : https://m.blog.naver.com/hanajava/220595096628
 ```
 
 
