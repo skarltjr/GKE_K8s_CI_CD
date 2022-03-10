@@ -217,8 +217,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s
-  labels: 
+  labels:
     app: k8s
   name: k8s
 spec:
@@ -292,5 +291,7 @@ argo가 잘 띄워진걸 확인할 수 있다.
 ```
 - <img width="1759" alt="스크린샷 2022-03-10 오후 11 20 01" src="https://user-images.githubusercontent.com/62214428/157681428-9000cc85-10c6-4602-a57f-9c42954701a8.png">
 - <img width="727" alt="스크린샷 2022-03-10 오후 11 28 41" src="https://user-images.githubusercontent.com/62214428/157682727-fb6e999a-9d3d-4de6-85e6-a55769d1aa85.png">
+- service로 확인한 externalip + port => http://34.133.117.58:8080/ 로 접근
+- <img width="1149" alt="스크린샷 2022-03-11 오전 12 06 46" src="https://user-images.githubusercontent.com/62214428/157690653-d719addd-cafe-4128-bf2c-a732b7445a8e.png">
 - ci cd 완성~
 
