@@ -235,7 +235,7 @@ spec:
       - name: k8s
         image: {dockerhub}/k8s:{jenkins build number}
         ports:
-          - containerPort:8080
+          - containerPort: 8080
 ```
 - 드디어 완성!
 - 이제 소스코드 레포지토리 변경사항 -> 웹훅 -> 젠킨스를 통해 빌드&이미지 새로 구성&이미지 푸쉬 -> k8s manifest repository update가 완료!
