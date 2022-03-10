@@ -238,3 +238,9 @@ spec:
 - <img width="1319" alt="스크린샷 2022-03-10 오후 7 25 40" src="https://user-images.githubusercontent.com/62214428/157642563-cc685b1a-b736-42bc-b14c-8007e5cb3889.png">
 
 
+
+### 5. argo CD 구성하기
+```
+지금까지 CD를 위한 CI를 구성했다.
+이제는 새로운 이미지 태그로 변경되어 manifest레포에 푸쉬되면 이를 바탕으로 argo가 재배포하도록 할 것이다.
+```
