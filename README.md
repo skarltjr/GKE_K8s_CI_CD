@@ -259,6 +259,7 @@ sed 커맨드는 참고: https://m.blog.naver.com/hanajava/220595096628
 ```
 - 드디어 완성!
 - 이제 소스코드 레포지토리 변경사항 -> 웹훅 -> 젠킨스를 통해 빌드&이미지 새로 구성&이미지 푸쉬 -> k8s manifest repository update가 완료!
+- <img width="1076" alt="스크린샷 2022-03-10 오후 7 27 07" src="https://user-images.githubusercontent.com/62214428/157642811-c4e657e7-9c77-4c8a-b261-42c109bdf83c.png">
 - <img width="1319" alt="스크린샷 2022-03-10 오후 7 25 40" src="https://user-images.githubusercontent.com/62214428/157642563-cc685b1a-b736-42bc-b14c-8007e5cb3889.png">
 
 
