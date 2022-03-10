@@ -211,26 +211,31 @@ spec:
     - port: 8080
       targetPort: 8080
       nodePort: 30007
-      
-apiVersion:apps/v1
+---      
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: k8s
+  labels: 
+    app: k8s
+  name: k8s
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: k8s
-    replicas:3
-    template:
-      metadata:
-        labels:
-          app: k8s
-      spec:
-        containers:
-          - name: k8s
-            image: {dockerhub}/k8s:{jenkins build number}
-            ports:
-              - containerPort:8080 
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: k8s
+    spec:
+      containers:
+      - name: k8s
+        image: {dockerhub}/k8s:{jenkins build number}
+        ports:
+          - containerPort:8080
 ```
 - 드디어 완성!
 - 이제 소스코드 레포지토리 변경사항 -> 웹훅 -> 젠킨스를 통해 빌드&이미지 새로 구성&이미지 푸쉬 -> k8s manifest repository update가 완료!
@@ -267,10 +272,19 @@ argo가 잘 띄워진걸 확인할 수 있다.
 
 ### 6. argo app 생성
 - 우리가 관리할 프로젝트를 구성하자
+- 먼저 private repo접근을 위해 설정
+- <img width="1114" alt="스크린샷 2022-03-10 오후 10 57 11" src="https://user-images.githubusercontent.com/62214428/157676884-b1318637-b09a-4fe4-9a12-fed5a6a15845.png">
+- 참고로 비밀번호는 마찬가지로 토큰으로
 - new app
-- ![스크린샷 2022-03-10 오후 10 49 35](https://user-images.githubusercontent.com/62214428/157675263-1cb1b709-f83f-49d6-8669-3a32789250e4.png)
+- <img width="1132" alt="스크린샷 2022-03-10 오후 11 05 04" src="https://user-images.githubusercontent.com/62214428/157678281-a2f86c2b-21e8-49ea-a95b-d5d63263b319.png">
 - manifest repository는 private으로 루트에 바로 manifest파일들이 있다
 - <img width="1435" alt="스크린샷 2022-03-10 오후 10 48 35" src="https://user-images.githubusercontent.com/62214428/157675064-596178c7-d657-4452-b93d-64f175b26201.png">
 - <img width="1425" alt="스크린샷 2022-03-10 오후 10 51 07" src="https://user-images.githubusercontent.com/62214428/157675574-6625488b-612e-4190-a69c-0f7ee95d133f.png">
+- 바로 위에서 네임스페이스를 지정했기때문에 쿠버네티스에 네임스페이스 생성 springboot-ns
+- <img width="1438" alt="스크린샷 2022-03-10 오후 11 03 00" src="https://user-images.githubusercontent.com/62214428/157677803-b3b42fa7-95b1-4850-90c4-e3103c4d501d.png">
 
-
+### 7. 확인해보자
+```
+지금 현재 클러스터에 어떤 배포도 일어나지 않았다.
+이제 소스코드를 변경하면 새로운 이미지가 생겨나고 이를 적용한 deployment.yaml을 바탕으로 배포가 자동 진행되는지 확인해보자
+```
