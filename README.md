@@ -288,3 +288,7 @@ argo가 잘 띄워진걸 확인할 수 있다.
 지금 현재 클러스터에 어떤 배포도 일어나지 않았다.
 이제 소스코드를 변경하면 새로운 이미지가 생겨나고 이를 적용한 deployment.yaml을 바탕으로 배포가 자동 진행되는지 확인해보자
 ```
+- <img width="1438" alt="스크린샷 2022-03-10 오후 11 03 00" src="https://user-images.githubusercontent.com/62214428/157681072-d7704916-0c73-404a-9d15-dfec491bb4f7.png">
+- <img width="841" alt="스크린샷 2022-03-10 오후 11 20 13" src="https://user-images.githubusercontent.com/62214428/157681134-896b42b6-de23-4c12-aa37-9b5d5e8a7cf3.png">
+- ci cd 완성~
+
