@@ -250,7 +250,7 @@ sshagent(credentials: ['{test-private-key}']) {
 
 여기서 test-private-key키 생성은 참고: https://hwannny.tistory.com/89
 
-sed 커맨드는 참고 : https://m.blog.naver.com/hanajava/220595096628
+sed 커맨드는 참고: https://m.blog.naver.com/hanajava/220595096628
 ```
 
 
