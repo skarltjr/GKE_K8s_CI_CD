@@ -240,8 +240,37 @@ spec:
 
 
 
-### 5. argo CD 구성하기
+### 5. argo CD 구성 준비
 ```
 지금까지 CD를 위한 CI를 구성했다.
 이제는 새로운 이미지 태그로 변경되어 manifest레포에 푸쉬되면 이를 바탕으로 argo가 재배포하도록 할 것이다.
+
+앞에서 젠킨스는 쿠버네티스 클러스터와 직접적인 연관이 없기에 이를 별도로 관리하는것이 더 좋다고 생각했다.
+argo cd의 경우 직접적으로 클러스터내에 배포를 수행해야하기에 클러스터에 띄우고자한다.
 ```
+### 6. argo 설치
+- ![스크린샷 2022-03-10 오후 10 26 13](https://user-images.githubusercontent.com/62214428/157671111-3a3d6214-648c-45d1-86bb-e4a10dc2cc3f.png)
+- `kubectl create namespace argocd` // 네임스페이스 생성
+- `kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
+- <img width="1070" alt="스크린샷 2022-03-10 오후 10 29 42" src="https://user-images.githubusercontent.com/62214428/157671711-d9f2428b-3dbd-4ac7-8740-005044193d31.png">
+```
+argo가 잘 띄워진걸 확인할 수 있다.
+여기서 살펴볼부분은 argo server service가 현재 clusterIp로 동작
+직접 접근을 위해 해당 부분을 LoadBalancer로 변경해준다.
+```
+- `kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'`
+- <img width="1045" alt="스크린샷 2022-03-10 오후 10 31 40" src="https://user-images.githubusercontent.com/62214428/157672024-9411e097-0240-45a9-8cd3-a5d567d827c0.png">
+- service의 external-ip로 접근해보자 / 나는 https://35.222.118.22
+- 패스워드 확인 `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+- 초기 username = admin / password = 바로위에서 확인
+- ![스크린샷 2022-03-10 오후 10 43 04](https://user-images.githubusercontent.com/62214428/157674113-64c526f4-7673-4d86-bb8d-ce0787c225fa.png)
+
+### 6. argo app 생성
+- 우리가 관리할 프로젝트를 구성하자
+- new app
+- ![스크린샷 2022-03-10 오후 10 49 35](https://user-images.githubusercontent.com/62214428/157675263-1cb1b709-f83f-49d6-8669-3a32789250e4.png)
+- manifest repository는 private으로 루트에 바로 manifest파일들이 있다
+- <img width="1435" alt="스크린샷 2022-03-10 오후 10 48 35" src="https://user-images.githubusercontent.com/62214428/157675064-596178c7-d657-4452-b93d-64f175b26201.png">
+- <img width="1425" alt="스크린샷 2022-03-10 오후 10 51 07" src="https://user-images.githubusercontent.com/62214428/157675574-6625488b-612e-4190-a69c-0f7ee95d133f.png">
+
+
