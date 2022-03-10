@@ -204,13 +204,12 @@ kind: Service
 metadata:
   name: k8s
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: k8s
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 30007
 ---      
 apiVersion: apps/v1
 kind: Deployment
@@ -289,6 +288,6 @@ argo가 잘 띄워진걸 확인할 수 있다.
 이제 소스코드를 변경하면 새로운 이미지가 생겨나고 이를 적용한 deployment.yaml을 바탕으로 배포가 자동 진행되는지 확인해보자
 ```
 - <img width="1759" alt="스크린샷 2022-03-10 오후 11 20 01" src="https://user-images.githubusercontent.com/62214428/157681428-9000cc85-10c6-4602-a57f-9c42954701a8.png">
-- <img width="841" alt="스크린샷 2022-03-10 오후 11 20 13" src="https://user-images.githubusercontent.com/62214428/157681134-896b42b6-de23-4c12-aa37-9b5d5e8a7cf3.png">
+- <img width="727" alt="스크린샷 2022-03-10 오후 11 28 41" src="https://user-images.githubusercontent.com/62214428/157682727-fb6e999a-9d3d-4de6-85e6-a55769d1aa85.png">
 - ci cd 완성~
 
