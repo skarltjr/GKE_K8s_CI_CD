@@ -202,6 +202,8 @@ sed 커맨드는 참고: https://m.blog.naver.com/hanajava/220595096628
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: k8s
   name: k8s
 spec:
   type: LoadBalancer
@@ -210,6 +212,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+
 ---      
 apiVersion: apps/v1
 kind: Deployment
