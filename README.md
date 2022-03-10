@@ -1,5 +1,6 @@
 # GKE_K8s_CI_CD
 GKE를 활용한 쿠버네티스 클러스터 구축 및 젠킨스CI / argo CD 구성해보기
+- <img width="1065" alt="스크린샷 2022-03-10 오후 10 16 41" src="https://user-images.githubusercontent.com/62214428/157669529-82a6129f-29df-408e-be4a-686d27fb0c77.png">
 ```
 목표 및 진행 방향 정리
 1. 소스코드 레포지토리에서 변동 사항이 발생
