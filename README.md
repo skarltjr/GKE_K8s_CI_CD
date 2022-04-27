@@ -295,3 +295,7 @@ argo가 잘 띄워진걸 확인할 수 있다.
 - <img width="1149" alt="스크린샷 2022-03-11 오전 12 06 46" src="https://user-images.githubusercontent.com/62214428/157690653-d719addd-cafe-4128-bf2c-a732b7445a8e.png">
 - ci cd 완성~
 
+### todo
+```
+github actions 공부하고 젠킨스 대체하기
+```
